@@ -1,13 +1,11 @@
 <h1>Тестовое задание</h1>
 <bold>Выполнение тестового задания for Kata Acedemy </bold>
-Калькулятор арабских и римских цифр
+<p>Калькулятор арабских и римских цифр</p>
 
-Ввод: 
+<p>Ввод:</p> 
 <code>go run main.go</code>
-Ввод чисел через через делается через пробел
+<p>Ввод чисел через через делается через пробел <code> input: 1 + 2 </code> </p>
+<p> <code> output: 3 </code> </p>
 
-<code> input: 1 + 2 </code>
-<code> output: 3 </code>
-
-<code> input: V * V </code>
-<code> output: XXV</code>
+<p> <code> input: V * V </code> </p>
+<p> <code> output: XXV</code> </p>
