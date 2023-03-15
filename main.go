@@ -32,11 +32,6 @@ func arab(a int, b int, sign string) int {
 	case "-":
 		return a - b
 	case "/":
-		if b == 0 {
-			err := errors.New("There are no division by zero")
-			fmt.Println(err)
-			os.Exit(0)
-		}
 		return a / b
 	case "*":
 		return a * b
@@ -109,7 +104,7 @@ func main() {
 
 	arabCon := arabOrRim(err, err2)
 
-	if arabCon {
+	if arabCon { // проверка введены арабские или римские цифры
 		if num1 > 10 || num2 > 10 {
 			err := errors.New("numbers must be less or equal 10")
 			fmt.Println(err)
