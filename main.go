@@ -57,7 +57,6 @@ func romanToInt(roman string) int {
 }
 
 func intToRoman(number int) string {
-
 	conversions := []struct {
 		value int
 		digit string
@@ -81,6 +80,7 @@ func intToRoman(number int) string {
 }
 
 func main() {
+	allowed_romans := [...]string{"I", "IV", "V", "IX"}
 	var result int
 	exp, err := bufio.NewReader(os.Stdin).ReadString('\n')
 
@@ -100,9 +100,9 @@ func main() {
 	num1, err := strconv.Atoi(arr[0])
 	num2, err2 := strconv.Atoi(arr[2])
 
-	sign := arr[1]
-
 	arabCon := arabOrRim(err, err2)
+
+	sign := arr[1]
 
 	if arabCon { // проверка введены арабские или римские цифры
 		if num1 > 10 || num2 > 10 {
@@ -110,9 +110,28 @@ func main() {
 			fmt.Println(err)
 			os.Exit(0)
 		}
+		if num1 < 1 || num2 < 1 {
+			err := errors.New("numbers can't be less 1")
+			fmt.Println(err)
+			os.Exit(0)
+		}
 		result = arab(num1, num2, sign)
 		fmt.Println(result)
 	} else {
+		count1, count2 := 0, 0
+		for _, rom := range allowed_romans {
+			if arr[0] == rom {
+				count1++
+			}
+			if arr[2] == rom {
+				count2++
+			}
+		}
+		if count1 == 0 && count2 == 0 {
+			err := errors.New("wrong input")
+			fmt.Println(err)
+			os.Exit(0)
+		}
 		num1, num2 = romanToInt(arr[0]), romanToInt(arr[2])
 		if num2 >= num1 && sign == "-" {
 			err := errors.New("There are no negative numbers in roman system (or 0) ")
