@@ -80,7 +80,7 @@ func intToRoman(number int) string {
 }
 
 func main() {
-	allowed_romans := [...]string{"I", "IV", "V", "IX"}
+	allowed_romans := [...]string{"I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"}
 	var result int
 	exp, err := bufio.NewReader(os.Stdin).ReadString('\n')
 
