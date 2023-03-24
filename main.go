@@ -10,7 +10,6 @@ import (
 )
 
 func arabOrRim(err error, err2 error) bool {
-
 	if err == nil && err2 == nil {
 		return true
 	}
@@ -21,6 +20,7 @@ func arabOrRim(err error, err2 error) bool {
 		fmt.Println(err)
 		os.Exit(0)
 	}
+
 	return false
 }
 
@@ -43,24 +43,42 @@ func arab(a int, b int, sign string) int {
 	}
 }
 
-func romanToInt(roman string) int {
-	var sum int
-	var Roman = map[byte]int{'I': 1, 'V': 5, 'X': 10}
-	for k, v := range roman {
-		if k < len(roman)-1 && Roman[byte(roman[k+1])] > Roman[byte(roman[k])] {
-			sum -= Roman[byte(v)]
-		} else {
-			sum += Roman[byte(v)]
+func romanToInt(s string) int {
+	var RomanNumerals = map[rune]int{
+		'I': 1,
+		'V': 5,
+		'X': 10,
+		'L': 50,
+		'C': 100,
+		'D': 500,
+		'M': 1000,
+	}
+
+	sum := 0
+	greatest := 0
+	for i := len(s) - 1; i >= 0; i-- {
+		letter := s[i]
+		num := RomanNumerals[rune(letter)]
+		if num >= greatest {
+			greatest = num
+			sum = sum + num
+			continue
 		}
+		sum = sum - num
 	}
 	return sum
 }
 
-func intToRoman(number int) string {
+func intToRoman(num int) string {
+	var roman string
 	conversions := []struct {
 		value int
 		digit string
 	}{
+		{100, "C"},
+		{90, "XC"},
+		{50, "L"},
+		{40, "XL"},
 		{10, "X"},
 		{9, "IX"},
 		{5, "V"},
@@ -68,15 +86,14 @@ func intToRoman(number int) string {
 		{1, "I"},
 	}
 
-	var roman strings.Builder
 	for _, conversion := range conversions {
-		for number >= conversion.value {
-			roman.WriteString(conversion.digit)
-			number -= conversion.value
+		for num >= conversion.value {
+			roman += conversion.digit
+			num -= conversion.value
 		}
 	}
 
-	return roman.String()
+	return roman
 }
 
 func main() {
@@ -118,20 +135,26 @@ func main() {
 		result = arab(num1, num2, sign)
 		fmt.Println(result)
 	} else {
-		count1, count2 := 0, 0
-		for _, rom := range allowed_romans {
-			if arr[0] == rom {
+		var count1, count2 int
+
+		for _, el := range allowed_romans {
+			if el == arr[0] {
 				count1++
 			}
-			if arr[2] == rom {
+		}
+
+		for _, el := range allowed_romans {
+			if el == arr[2] {
 				count2++
 			}
 		}
-		if count1 == 0 && count2 == 0 {
+
+		if count1 == 0 || count2 == 0 {
 			err := errors.New("wrong input")
 			fmt.Println(err)
 			os.Exit(0)
 		}
+
 		num1, num2 = romanToInt(arr[0]), romanToInt(arr[2])
 		if num2 >= num1 && sign == "-" {
 			err := errors.New("There are no negative numbers in roman system (or 0) ")
